@@ -12,4 +12,8 @@ public class RentCarDTO {
     private String startTime;
 
     private String expectedReturnTime;
+
+    private String pickupLocation;
+
+    private String returnLocation;
 }

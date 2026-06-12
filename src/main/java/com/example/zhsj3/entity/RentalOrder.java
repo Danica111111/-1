@@ -32,4 +32,8 @@ public class RentalOrder {
     private String status;
 
     private LocalDateTime createTime;
+
+    private String pickupLocation;
+
+    private String returnLocation;
 }

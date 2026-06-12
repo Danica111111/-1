@@ -58,11 +58,13 @@ public class OrderController {
         return orderService.getUserOrders(userId);
     }
 
+
+
     /**
-     * 查询所有订单
+     * 取消预约
      */
-    @GetMapping
-    public Result<List<RentalOrder>> listOrders() {
-        return orderService.listOrders();
+    @PostMapping("/cancel-reserve/{orderId}")
+    public Result<Void> cancelReserve(@PathVariable Long orderId) {
+        return orderService.cancelReserve(orderId);
     }
 }

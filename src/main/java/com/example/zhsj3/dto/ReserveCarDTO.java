@@ -10,4 +10,8 @@ public class ReserveCarDTO {
     private Long carId;
 
     private String reserveTime;
+
+    private String pickupLocation;
+
+    private String returnLocation;
 }

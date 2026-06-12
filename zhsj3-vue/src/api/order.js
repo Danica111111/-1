@@ -20,6 +20,6 @@ export function getUserOrders(userId) {
     return request.get(`/orders/user/${userId}`)
 }
 
-export function getAllOrders() {
-    return request.get('/orders')
+export function cancelReserve(orderId) {
+    return request.post(`/orders/cancel-reserve/${orderId}`)
 }

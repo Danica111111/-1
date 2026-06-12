@@ -52,6 +52,8 @@ public class OrderService {
         order.setExpectedReturnTime(parseTimeOrDefault(rentCarDTO.getExpectedReturnTime()));
         order.setDeposit(new BigDecimal("500"));
         order.setTotalFee(null);
+        order.setPickupLocation(rentCarDTO.getPickupLocation());
+        order.setReturnLocation(rentCarDTO.getReturnLocation());
         order.setStatus("RENTING");
         order.setCreateTime(LocalDateTime.now());
 
@@ -92,6 +94,8 @@ public class OrderService {
         order.setActualReturnTime(null);
         order.setDeposit(new BigDecimal("500"));
         order.setTotalFee(null);
+        order.setPickupLocation(reserveCarDTO.getPickupLocation());
+        order.setReturnLocation(reserveCarDTO.getReturnLocation());
         order.setStatus("RESERVED");
         order.setCreateTime(LocalDateTime.now());
 
@@ -101,6 +105,36 @@ public class OrderService {
         carMapper.updateById(car);
 
         return Result.success("预约成功", null);
+    }
+
+    /**
+     * 取消预约
+     */
+    @Transactional
+    public Result<Void> cancelReserve(Long orderId) {
+        RentalOrder order = rentalOrderMapper.selectById(orderId);
+
+        if (order == null) {
+            return Result.error("订单不存在");
+        }
+
+        if (!"RESERVED".equals(order.getStatus())) {
+            return Result.error("只有预约中的订单才能取消");
+        }
+
+        Car car = carMapper.selectById(order.getCarId());
+
+        if (car == null) {
+            return Result.error("车辆不存在");
+        }
+
+        order.setStatus("CANCELLED");
+        rentalOrderMapper.updateById(order);
+
+        car.setStatus("AVAILABLE");
+        carMapper.updateById(car);
+
+        return Result.success("取消预约成功", null);
     }
 
     /**
